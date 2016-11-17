@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8"/>
+<body>
+
+<div style="font-size:500px; text-align: center;font-weight: 900" id="demo">平仮名</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+	console.log("loaded");
+
+	var hira = ["あ", "い", "う", "え", "お", "か", "き", "け", "こ", "さ", "し","す","せ","そ","た","ち","つ","て"," と","な","に","ぬ","ね","の","は","ひ","ふ","へ","ほ","ま","み","む","め","も","ら","り","る","れ","ろ","わ","を","ん","が","ぎ","ぐ","げ","ご","ざ","じ","ず","ぜ","ぞ","だ","で","ど","ば","び","ぶ","べ","ぼ","ぱ","ぴ","ぷ","ぺ","ぽ"];
+
+	document.addEventListener("click", function() {
+		console.log("clicked");
+	var item = hira[Math.floor(Math.random()*hira.length)]; //No DUP
+	//TODO: Pronounciation 
+	//TODO: TIMER
+	document.getElementById("demo").innerHTML = item;
+	document.getElementById("demo").style.color = '#' + ('00000' + (Math.random() * 16777216 << 0).toString(16)).substr(-6);
+	});
+
+
+	document.addEventListener("keypress", function() {
+		console.log("keypressed");
+		document.getElementById('demo').click();
+	});
+});
+</script>
+
+<style>
+	<p >
+
+</style>
+
+</body>
+</html>
