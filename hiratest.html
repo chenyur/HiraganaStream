@@ -4,6 +4,7 @@
 <body>
 
 <div style="font-size:500px; text-align: center;font-weight: 900" id="demo">平仮名</div>
+<div id="time"></div>
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
@@ -13,25 +14,22 @@ document.addEventListener("DOMContentLoaded", function() {
 
 	document.addEventListener("click", function() {
 		console.log("clicked");
-	var item = hira[Math.floor(Math.random()*hira.length)]; //No DUP
+	var item = hira[Math.floor(Math.random()*hira.length)]; //Duplicate is okay, maybe other modes later
 	//TODO: Pronounciation 
-	//TODO: TIMER
 	document.getElementById("demo").innerHTML = item;
 	document.getElementById("demo").style.color = '#' + ('00000' + (Math.random() * 16777216 << 0).toString(16)).substr(-6);
 	});
-
 
 	document.addEventListener("keypress", function() {
 		console.log("keypressed");
 		document.getElementById('demo').click();
 	});
-});
+
+	document.addEventListener("touchend", function() {
+	console.log("touchend");
+	document.getElementById('demo').click();
+	});
+}, true);
 </script>
-
-<style>
-	<p >
-
-</style>
-
 </body>
 </html>
