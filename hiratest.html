@@ -9,19 +9,33 @@
 <script>
 document.addEventListener("DOMContentLoaded", function() {
 	console.log("loaded");
+	var colorID;
 
 	var hira = ["あ", "い", "う", "え", "お", "か", "き", "け", "こ", "さ", "し","す","せ","そ","た","ち","つ","て"," と","な","に","ぬ","ね","の","は","ひ","ふ","へ","ほ","ま","み","む","め","も","ら","り","る","れ","ろ","わ","を","ん","が","ぎ","ぐ","げ","ご","ざ","じ","ず","ぜ","ぞ","だ","で","ど","ば","び","ぶ","べ","ぼ","ぱ","ぴ","ぷ","ぺ","ぽ"];
 
 	document.addEventListener("click", function() {
 		console.log("clicked");
-	var item = hira[Math.floor(Math.random()*hira.length)]; //Duplicate is okay, maybe other modes later 
+		clearInterval(colorID);
+		var alpha = 0;
+		var read = false;
+
+	var item = hira[Math.floor(Math.random()*hira.length)]; //Duplicate is okay, maybe other modes later
 	document.getElementById("demo").innerHTML = item;
 
+	colorID = setInterval(() => {
+		console.log(alpha);
+		alpha += 0.01;
+		document.body.style.backgroundColor = "rgba(0, 0, 0, "+alpha+")";
+		if (alpha > 1 && read == false) {
 	var words = new SpeechSynthesisUtterance(item);
 	words.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == 'Google 日本語'; })[0];
 	words.rate = 0.5;
 	speechSynthesis.speak(words);
-
+	read = true;
+		}
+	}, 25);
+	
+// TODO: counter!
 
 	document.getElementById("demo").style.color = '#' + ('00000' + (Math.random() * 16777216 << 0).toString(16)).substr(-6);
 	});
