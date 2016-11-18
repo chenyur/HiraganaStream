@@ -3,7 +3,7 @@
 <meta charset="utf-8"/>
 <body>
 
-<div style="font-size:500px; text-align: center;font-weight: 900" id="demo">平仮名</div>
+<div style="font-size:500px; text-align: center;font-weight: 900;cursor: pointer;" id="demo" onClick="">平仮名</div>
 <div id="time"></div>
 
 <script>
@@ -24,12 +24,8 @@ document.addEventListener("DOMContentLoaded", function() {
 		console.log("keypressed");
 		document.getElementById('demo').click();
 	});
-
-	document.addEventListener("touchend", function() {
-	console.log("touchend");
-	document.getElementById('demo').click();
-	});
 }, true);
+
 </script>
 </body>
 </html>
