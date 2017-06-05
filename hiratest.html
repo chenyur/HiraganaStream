@@ -1,41 +1,68 @@
 <!DOCTYPE html>
 <html>
 <meta charset="utf-8"/>
-<body>
-
-<div style="font-size:500px; text-align: center;font-weight: 900;cursor: pointer;" id="demo" onClick="">平仮名</div>
-<div id="time"></div>
+<body style="background-color: black">
+<div style="font-size:500px; color: white; text-align: center;font-weight: 900;cursor: pointer;" id="demo" onClick="">平仮名</div>
+<div style="font-size:100px; text-align: center;font-weight: 900;cursor: pointer;" id="rubi" onClick="">hello </div>
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-	console.log("loaded");
-	var colorID;
 
-	var hira = ["あ", "い", "う", "え", "お", "か", "き", "け", "こ", "さ", "し","す","せ","そ","た","ち","つ","て"," と","な","に","ぬ","ね","の","は","ひ","ふ","へ","ほ","ま","み","む","め","も","ら","り","る","れ","ろ","わ","を","ん","が","ぎ","ぐ","げ","ご","ざ","じ","ず","ぜ","ぞ","だ","で","ど","ば","び","ぶ","べ","ぼ","ぱ","ぴ","ぷ","ぺ","ぽ"];
+	var welcomeMsg = "Welcome to Hiragana Stream. Click to cycle through hiragana you know, or wait to hear it's pronunciation.";
+	var welcome = new SpeechSynthesisUtterance(welcomeMsg);
+	speechSynthesis.speak(welcome);
+
+	welcome.onend = function(event) {
+		document.getElementById('demo').click();
+	}
+
+	var colorID;
+	var repeat;
+
+	var hira = ["あ", "い", "う", "え", "お", "か", "き", "く", "け", "こ", "さ", "し","す","せ","そ","た","ち","つ","て"," と","な","に","ぬ","ね","の","は","ひ","ふ","へ","ほ","ま","み","む","め","も","ら","り","る","れ","ろ","わ","を","が","ぎ","ぐ","げ","ご","ざ","じ","ず","ぜ","ぞ","だ","で","ど","ば","び","ぶ","べ","ぼ","ぱ","ぴ","ぷ","ぺ","ぽ"];
+
+	var rubi = ["a", "i", "u", "e", "o", "ka", "ki", "ku", "ke", "ko", "sa", "shi", "su", "se", "so", "ta", "chi", "tsu", "te", "to", "na", "ni", "nu", "ne", "no", "ha", "hi", "fu", "he", "ho", "ma", "mi", "mu", "me", "mo", "ra", "ri", "ru", "re", "ro", "wa", "wo", "ga", "gi", "gu", "ge", "go", "za", "ji", "zu", "ze", "zo", "da", "de", "do", "ba", "bi", "bu", "be", "bo", "pa", "pi", "pu", "pe", "po"];
 
 	document.addEventListener("click", function() {
 		console.log("clicked");
+		clearInterval(repeat);
 		clearInterval(colorID);
-		var alpha = 0;
+		var alpha = 1;
 		var read = false;
+		var delay = 0;
+		var beta = 0;
 
-	var item = hira[Math.floor(Math.random()*hira.length)]; //Duplicate is okay, maybe other modes later
+	var item = hira[Math.floor(Math.random()*hira.length)]; //Duplicate is okay
 	document.getElementById("demo").innerHTML = item;
 
+	setTimeout(() =>{document.getElementById("rubi").innerHTML = "(" + rubi[hira.indexOf(item)] + ")"; }, 500);
+
 	colorID = setInterval(() => {
-		console.log(alpha);
-		alpha += 0.01;
-		document.body.style.backgroundColor = "rgba(0, 0, 0, "+alpha+")";
-		if (alpha > 1 && read == false) {
+		delay ++;
+		if(delay > 300){ alpha -= 0.02; beta += 0.002;}	//First delay and then make window lighter + rubi appear
+		document.body.style.backgroundColor = "rgba(0, 0, 0, "+ alpha +")";
+		document.getElementById("rubi").style.color = "rgba(0, 0, 0, "+ beta +")";
+		if (alpha < 0 && read == false) {
+
 	var words = new SpeechSynthesisUtterance(item);
 	words.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == 'Google 日本語'; })[0];
-	words.rate = 0.5;
-	speechSynthesis.speak(words);
-	read = true;
+	words.rate = 0.9;
+	words.pitch = 0.9;
+	var repetitions = 3;
+	var currentRepetition = 0;
+	repeat = setInterval(() => {
+		speechSynthesis.speak(words);
+		currentRepetition++;
+		if (currentRepetition == repetitions) {
+			setTimeout(() => { document.getElementById('demo').click(); }, 2000);
+			clearInterval(repeat);
+
 		}
+	}, 2000)
+
+	read = true;
+	}
 	}, 25);
-	
-// TODO: counter!
 
 	document.getElementById("demo").style.color = '#' + ('00000' + (Math.random() * 16777216 << 0).toString(16)).substr(-6);
 	});
