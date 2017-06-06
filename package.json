@@ -1,0 +1,15 @@
+{
+  "name": "hiragana_stream",
+  "version": "2.0.0",
+  "description": "Hiragana in a Stream",
+  "author": "Chenyu Ren <chenyu.ren@nyu.edu>",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.13.3"
+  }
+}
+
+
